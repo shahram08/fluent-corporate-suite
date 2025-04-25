@@ -8,6 +8,12 @@ import { ThemeProvider } from "./components/ThemeProvider";
 
 // Main website pages
 import Home from "./pages/Home";
+import ServicesPage from "./pages/Services";
+import PortfolioPage from "./pages/Portfolio";
+import BlogPage from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import AboutPage from "./pages/About";
+import ContactPage from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 // Auth pages
@@ -30,6 +36,12 @@ const App = () => (
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<Home />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             
             {/* Auth routes */}
             <Route path="/auth/login" element={<Login />} />
