@@ -94,6 +94,31 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-medium;
   }
+
+  /* RTL specific styles */
+  [dir="rtl"] .ltr-only {
+    @apply hidden;
+  }
+
+  [dir="ltr"] .rtl-only {
+    @apply hidden;
+  }
+  
+  /* Flip icons in RTL mode */
+  [dir="rtl"] .flip-in-rtl {
+    transform: scaleX(-1);
+  }
+  
+  /* Reverse margin/padding in RTL */
+  [dir="rtl"] .ml-auto {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  
+  [dir="rtl"] .mr-auto {
+    margin-right: 0;
+    margin-left: auto;
+  }
 }
 
 @layer components {

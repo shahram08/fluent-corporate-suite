@@ -1,5 +1,7 @@
+
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { 
   LayoutDashboard, 
   Users, 
@@ -16,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { useTheme } from "../ThemeProvider";
 import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
+import LanguageSwitcher from "../common/LanguageSwitcher";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -26,30 +29,32 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
 
   const navigation = [
     {
-      name: "Dashboard",
+      name: t('admin.dashboard.title'),
       href: "/admin",
       icon: LayoutDashboard,
     },
     {
-      name: "Users",
+      name: t('admin.users.title'),
       href: "/admin/users",
       icon: Users,
     },
     {
-      name: "Blog Posts",
+      name: t('admin.blogManagement.title'),
       href: "/admin/posts",
       icon: FileText,
     },
     {
-      name: "Activity Logs",
+      name: t('admin.activityLogs.title'),
       href: "/admin/activity",
       icon: Activity,
     },
     {
-      name: "Settings",
+      name: t('admin.settings.title'),
       href: "/admin/settings",
       icon: Settings,
     },
@@ -67,7 +72,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900" dir={isRTL ? 'rtl' : 'ltr'}>
       <div
         className={cn(
           "hidden md:flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all",
@@ -80,7 +85,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         )}>
           {!sidebarCollapsed && (
             <Link to="/admin" className="text-xl font-bold text-corporate-500 dark:text-corporate-300">
-              Admin
+              {t('navigation.admin')}
             </Link>
           )}
           <Button
@@ -89,7 +94,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             className="text-gray-500"
           >
-            {sidebarCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+            {sidebarCollapsed ? 
+              (isRTL ? <ChevronLeft size={18} /> : <ChevronRight size={18} />) : 
+              (isRTL ? <ChevronRight size={18} /> : <ChevronLeft size={18} />)
+            }
           </Button>
         </div>
         <Separator />
@@ -107,8 +115,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                 )}
               >
                 <item.icon className={cn(
-                  "flex-shrink-0 h-5 w-5 mr-3",
-                  sidebarCollapsed ? "mr-0" : "mr-3",
+                  "flex-shrink-0 h-5 w-5",
+                  sidebarCollapsed ? "mx-auto" : isRTL ? "ml-3" : "mr-3",
                   isActive(item.href)
                     ? "text-corporate-500 dark:text-corporate-300"
                     : "text-gray-500 dark:text-gray-400"
@@ -129,7 +137,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                   <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">A</span>
                 </div>
                 <div className="leading-none">
-                  <p className="font-medium">Admin User</p>
+                  <p className="font-medium">{t('admin.users.name')}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">admin@example.com</p>
                 </div>
               </div>
@@ -175,20 +183,20 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
       <div
         className={cn(
-          "fixed inset-y-0 left-0 flex flex-col z-30 w-full max-w-xs bg-white dark:bg-gray-800 transform transition-transform md:hidden",
-          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed inset-y-0 start-0 flex flex-col z-30 w-full max-w-xs bg-white dark:bg-gray-800 transform transition-transform md:hidden",
+          mobileMenuOpen ? "translate-x-0" : isRTL ? "translate-x-full" : "-translate-x-full"
         )}
       >
         <div className="p-4 flex items-center justify-between">
           <Link to="/admin" className="text-xl font-bold text-corporate-500 dark:text-corporate-300">
-            Admin
+            {t('navigation.admin')}
           </Link>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setMobileMenuOpen(false)}
           >
-            <ChevronLeft size={18} />
+            {isRTL ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
           </Button>
         </div>
         <Separator />
@@ -207,7 +215,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <item.icon className={cn(
-                  "flex-shrink-0 h-5 w-5 mr-3",
+                  "flex-shrink-0 h-5 w-5",
+                  isRTL ? "ml-3" : "mr-3",
                   isActive(item.href)
                     ? "text-corporate-500 dark:text-corporate-300"
                     : "text-gray-500 dark:text-gray-400"
@@ -224,7 +233,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                 <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">A</span>
               </div>
               <div className="leading-none">
-                <p className="font-medium">Admin User</p>
+                <p className="font-medium">{t('admin.users.name')}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">admin@example.com</p>
               </div>
             </div>
@@ -232,7 +241,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="ml-2 flex-shrink-0"
+              className={cn("flex-shrink-0", isRTL ? "mr-2" : "ml-2")}
             >
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </Button>
@@ -252,12 +261,14 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               <Menu className="h-6 w-6" />
             </Button>
             <div className="flex items-center ml-auto">
+              <LanguageSwitcher variant="ghost" size="sm" className="mr-2" />
+              
               <Button variant="ghost" size="sm" asChild className="mr-2">
-                <Link to="/">View Site</Link>
+                <Link to="/">{t('navigation.viewSite')}</Link>
               </Button>
               <Button variant="outline" size="sm">
-                <LogOut className="h-4 w-4 mr-2" />
-                <Link to="/auth/login">Logout</Link>
+                <LogOut className={cn("h-4 w-4", isRTL ? "ml-2" : "mr-2")} />
+                <Link to="/auth/login">{t('navigation.logout')}</Link>
               </Button>
             </div>
           </div>

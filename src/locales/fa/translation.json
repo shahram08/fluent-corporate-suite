@@ -1,0 +1,174 @@
+
+{
+  "common": {
+    "language": "زبان",
+    "theme": {
+      "light": "روشن",
+      "dark": "تیره"
+    }
+  },
+  "navigation": {
+    "home": "خانه",
+    "services": "خدمات",
+    "portfolio": "نمونه کارها",
+    "blog": "وبلاگ",
+    "about": "درباره ما",
+    "contact": "تماس با ما",
+    "login": "ورود",
+    "register": "ثبت نام",
+    "admin": "مدیریت",
+    "logout": "خروج",
+    "viewSite": "مشاهده سایت"
+  },
+  "buttons": {
+    "readMore": "بیشتر بخوانید",
+    "learnMore": "بیشتر بدانید",
+    "viewAll": "مشاهده همه",
+    "submit": "ارسال",
+    "send": "ارسال",
+    "cancel": "لغو",
+    "save": "ذخیره",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "create": "ایجاد",
+    "search": "جستجو",
+    "filter": "فیلتر",
+    "clear": "پاک کردن"
+  },
+  "auth": {
+    "login": {
+      "title": "خوش آمدید",
+      "description": "وارد حساب کاربری خود شوید",
+      "emailLabel": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "passwordLabel": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور خود را وارد کنید",
+      "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
+      "rememberMe": "مرا به خاطر بسپار",
+      "noAccount": "حساب کاربری ندارید؟",
+      "signUp": "ثبت نام",
+      "loginButton": "ورود",
+      "loggingInButton": "در حال ورود...",
+      "error": "نام کاربری یا رمز عبور شما اشتباه است."
+    },
+    "register": {
+      "title": "ایجاد حساب کاربری",
+      "description": "برای شروع ثبت نام کنید",
+      "nameLabel": "نام کامل",
+      "namePlaceholder": "نام کامل خود را وارد کنید",
+      "emailLabel": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "passwordLabel": "رمز عبور",
+      "passwordPlaceholder": "یک رمز عبور ایجاد کنید",
+      "confirmPasswordLabel": "تأیید رمز عبور",
+      "confirmPasswordPlaceholder": "رمز عبور خود را تأیید کنید",
+      "hasAccount": "قبلاً حساب کاربری دارید؟",
+      "logIn": "ورود",
+      "registerButton": "ثبت نام",
+      "registeringButton": "در حال ایجاد حساب...",
+      "passwordMismatch": "رمزهای عبور مطابقت ندارند"
+    },
+    "forgotPassword": {
+      "title": "فراموشی رمز عبور",
+      "description": "برای بازنشانی رمز عبور خود ایمیل خود را وارد کنید",
+      "emailLabel": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "backToLogin": "بازگشت به صفحه ورود",
+      "rememberPassword": "رمز عبور خود را به یاد می‌آورید؟",
+      "sendButton": "ارسال دستورالعمل بازنشانی",
+      "sendingButton": "در حال ارسال دستورالعمل...",
+      "checkEmail": "ایمیل خود را بررسی کنید",
+      "emailSent": "ما دستورالعمل‌های بازنشانی رمز عبور را به این آدرس ارسال کردیم:",
+      "returnToLogin": "بازگشت به صفحه ورود"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "داشبورد",
+      "welcome": "به داشبورد مدیریت خوش آمدید!",
+      "totalUsers": "کل کاربران",
+      "blogPosts": "پست‌های وبلاگ",
+      "pageViews": "بازدید صفحات",
+      "conversionRate": "نرخ تبدیل",
+      "overview": "نمای کلی",
+      "analytics": "تحلیل‌ها",
+      "reports": "گزارش‌ها",
+      "recentActivity": "فعالیت‌های اخیر",
+      "latestActivities": "آخرین فعالیت‌های سایت",
+      "analyticsDescription": "ترافیک وب سایت و معیارهای تعامل",
+      "reportsDescription": "گزارش‌ها و بینش‌های تولید شده",
+      "chartsPlaceholder": "نمودارهای تحلیلی اینجا نمایش داده می‌شوند",
+      "reportsPlaceholder": "گزارش‌ها اینجا نمایش داده می‌شوند"
+    },
+    "users": {
+      "title": "کاربران",
+      "allUsers": "همه کاربران",
+      "admins": "مدیران",
+      "editors": "ویرایشگران",
+      "viewers": "بازدیدکنندگان",
+      "addUser": "افزودن کاربر",
+      "editUser": "ویرایش کاربر",
+      "deleteUser": "حذف کاربر",
+      "searchUsers": "جستجوی کاربران...",
+      "role": "نقش",
+      "name": "نام",
+      "email": "ایمیل",
+      "status": "وضعیت",
+      "createdAt": "تاریخ ایجاد",
+      "actions": "عملیات",
+      "active": "فعال",
+      "inactive": "غیرفعال"
+    },
+    "blogManagement": {
+      "title": "پست‌های وبلاگ",
+      "allPosts": "همه پست‌ها",
+      "published": "منتشر شده",
+      "drafts": "پیش‌نویس‌ها",
+      "addPost": "افزودن پست",
+      "editPost": "ویرایش پست",
+      "deletePost": "حذف پست",
+      "searchPosts": "جستجوی پست‌ها...",
+      "title": "عنوان",
+      "author": "نویسنده",
+      "category": "دسته‌بندی",
+      "status": "وضعیت",
+      "publishedDate": "تاریخ انتشار",
+      "actions": "عملیات"
+    },
+    "activityLogs": {
+      "title": "گزارش‌های فعالیت",
+      "allLogs": "همه گزارش‌ها",
+      "user": "کاربر",
+      "action": "عملیات",
+      "description": "توضیحات",
+      "date": "تاریخ",
+      "exportLogs": "خروجی گزارش‌ها"
+    },
+    "settings": {
+      "title": "تنظیمات",
+      "general": "عمومی",
+      "appearance": "ظاهر",
+      "seo": "سئو",
+      "security": "امنیت",
+      "siteTitle": "عنوان سایت",
+      "siteDescription": "توضیحات سایت",
+      "siteLogo": "لوگوی سایت",
+      "siteFavicon": "آیکون سایت",
+      "maintenanceMode": "حالت تعمیر و نگهداری",
+      "defaultLanguage": "زبان پیش‌فرض",
+      "saveChanges": "ذخیره تغییرات"
+    }
+  },
+  "footer": {
+    "allRightsReserved": "تمامی حقوق محفوظ است",
+    "privacyPolicy": "سیاست حفظ حریم خصوصی",
+    "termsOfService": "شرایط استفاده از خدمات"
+  },
+  "errors": {
+    "required": "این فیلد الزامی است",
+    "invalidEmail": "لطفاً یک آدرس ایمیل معتبر وارد کنید",
+    "minLength": "باید حداقل {{count}} کاراکتر باشد",
+    "passwordMismatch": "رمزهای عبور مطابقت ندارند",
+    "serverError": "خطایی رخ داده است. لطفاً بعداً دوباره امتحان کنید."
+  }
+}

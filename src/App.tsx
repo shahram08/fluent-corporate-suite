@@ -7,6 +7,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
 
+// Import i18n
+import './i18n';
+
 // Main website pages
 import Home from "./pages/Home";
 import ServicesPage from "./pages/Services";
