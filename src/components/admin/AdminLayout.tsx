@@ -68,7 +68,6 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
-      {/* Sidebar for desktop */}
       <div
         className={cn(
           "hidden md:flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all",
@@ -166,7 +165,6 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <div
         className={cn(
           "fixed inset-0 bg-gray-600 bg-opacity-75 z-20 transition-opacity md:hidden",
@@ -242,9 +240,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         </div>
       </div>
 
-      {/* Main content */}
       <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Top navbar */}
         <header className="bg-white dark:bg-gray-800 shadow-sm z-10">
           <div className="h-16 px-4 flex items-center justify-between">
             <Button
@@ -267,7 +263,6 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           </div>
         </header>
 
-        {/* Main content area */}
         <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-6">
           {children}
         </main>
