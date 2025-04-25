@@ -1,4 +1,3 @@
-
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
@@ -6,7 +5,7 @@ import {
   Users, 
   FileText, 
   Settings, 
-  ActivityLog,
+  Activity,
   LogOut,
   ChevronLeft,
   ChevronRight,
@@ -47,7 +46,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     {
       name: "Activity Logs",
       href: "/admin/activity",
-      icon: ActivityLog,
+      icon: Activity,
     },
     {
       name: "Settings",
