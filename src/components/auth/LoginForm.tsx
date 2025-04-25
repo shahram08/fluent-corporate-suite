@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -15,14 +16,16 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !password) {
       toast({
-        title: "Error",
-        description: "Please fill in all fields",
+        title: t('auth.error'),
+        description: t('auth.fillAllFields'),
         variant: "destructive",
       });
       return;
@@ -38,21 +41,21 @@ const LoginForm = () => {
       // For demo purposes, let's just check for a dummy admin account
       if (email === "admin@example.com" && password === "password") {
         toast({
-          title: "Success",
-          description: "You have successfully logged in",
+          title: t('auth.success'),
+          description: t('auth.loginSuccess'),
         });
         // Redirect would happen here
       } else {
         toast({
-          title: "Error",
-          description: "Your username or password is incorrect.",
+          title: t('auth.error'),
+          description: t('auth.invalidCredentials'),
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred during login",
+        title: t('auth.error'),
+        description: t('auth.loginError'),
         variant: "destructive",
       });
     } finally {
@@ -63,14 +66,14 @@ const LoginForm = () => {
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-white">Email</Label>
+        <Label htmlFor="email" className="text-white">{t('auth.email')}</Label>
         <div className="relative">
           <Input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
+            placeholder={t('auth.enterEmail')}
             required
             className="glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white"
           />
@@ -79,9 +82,9 @@ const LoginForm = () => {
       
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label htmlFor="password" className="text-white">Password</Label>
+          <Label htmlFor="password" className="text-white">{t('auth.password')}</Label>
           <Link to="/auth/forgot-password" className="text-sm text-white/80 hover:text-white">
-            Forgot password?
+            {t('auth.forgotPassword')}
           </Link>
         </div>
         <div className="relative">
@@ -90,14 +93,15 @@ const LoginForm = () => {
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            placeholder={t('auth.enterPassword')}
             required
-            className="glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white pr-10"
+            className={`glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white ${isRTL ? 'pl-10' : 'pr-10'}`}
           />
           <button
             type="button"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+            className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 text-white/70 hover:text-white`}
             onClick={() => setShowPassword(!showPassword)}
+            tabIndex={-1}
           >
             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
@@ -111,8 +115,8 @@ const LoginForm = () => {
           onCheckedChange={(checked) => setRememberMe(checked === true)}
           className="border-white/30 data-[state=checked]:bg-white data-[state=checked]:text-corporate-500"
         />
-        <label htmlFor="remember" className="ml-2 text-sm text-white cursor-pointer">
-          Remember me
+        <label htmlFor="remember" className={`${isRTL ? 'mr-2' : 'ml-2'} text-sm text-white cursor-pointer`}>
+          {t('auth.rememberMe')}
         </label>
       </div>
       
@@ -121,14 +125,14 @@ const LoginForm = () => {
         className="w-full bg-white text-corporate-500 hover:bg-white/90"
         disabled={isLoading}
       >
-        {isLoading ? "Logging in..." : "Log in"}
+        {isLoading ? t('auth.loggingIn') : t('auth.login')}
       </Button>
       
       <div className="text-center text-white/80">
         <p>
-          Don't have an account?{" "}
+          {t('auth.noAccount')}{" "}
           <Link to="/auth/register" className="text-white hover:underline">
-            Sign up
+            {t('auth.signUp')}
           </Link>
         </p>
       </div>

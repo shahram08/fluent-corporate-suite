@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
@@ -16,14 +17,16 @@ const RegisterForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!name || !email || !password || !confirmPassword) {
       toast({
-        title: "Error",
-        description: "Please fill in all fields",
+        title: t('auth.error'),
+        description: t('auth.fillAllFields'),
         variant: "destructive",
       });
       return;
@@ -31,8 +34,8 @@ const RegisterForm = () => {
     
     if (password !== confirmPassword) {
       toast({
-        title: "Error",
-        description: "Passwords do not match",
+        title: t('auth.error'),
+        description: t('auth.passwordsNotMatch'),
         variant: "destructive",
       });
       return;
@@ -46,14 +49,14 @@ const RegisterForm = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
       toast({
-        title: "Success",
-        description: "Your account has been created",
+        title: t('auth.success'),
+        description: t('auth.accountCreated'),
       });
       // Redirect would happen here
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred during registration",
+        title: t('auth.error'),
+        description: t('auth.registrationError'),
         variant: "destructive",
       });
     } finally {
@@ -64,47 +67,48 @@ const RegisterForm = () => {
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-white">Full Name</Label>
+        <Label htmlFor="name" className="text-white">{t('auth.fullName')}</Label>
         <Input
           id="name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your full name"
+          placeholder={t('auth.enterFullName')}
           required
           className="glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white"
         />
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-white">Email</Label>
+        <Label htmlFor="email" className="text-white">{t('auth.email')}</Label>
         <Input
           id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder={t('auth.enterEmail')}
           required
           className="glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white"
         />
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-white">Password</Label>
+        <Label htmlFor="password" className="text-white">{t('auth.password')}</Label>
         <div className="relative">
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Create a password"
+            placeholder={t('auth.createPassword')}
             required
-            className="glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white pr-10"
+            className={`glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white ${isRTL ? 'pl-10' : 'pr-10'}`}
           />
           <button
             type="button"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+            className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 text-white/70 hover:text-white`}
             onClick={() => setShowPassword(!showPassword)}
+            tabIndex={-1}
           >
             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
@@ -112,21 +116,22 @@ const RegisterForm = () => {
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
+        <Label htmlFor="confirmPassword" className="text-white">{t('auth.confirmPassword')}</Label>
         <div className="relative">
           <Input
             id="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm your password"
+            placeholder={t('auth.confirmYourPassword')}
             required
-            className="glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white pr-10"
+            className={`glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white ${isRTL ? 'pl-10' : 'pr-10'}`}
           />
           <button
             type="button"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+            className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 text-white/70 hover:text-white`}
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            tabIndex={-1}
           >
             {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
@@ -138,14 +143,14 @@ const RegisterForm = () => {
         className="w-full bg-white text-corporate-500 hover:bg-white/90 mt-6"
         disabled={isLoading}
       >
-        {isLoading ? "Creating account..." : "Sign up"}
+        {isLoading ? t('auth.creatingAccount') : t('auth.signUp')}
       </Button>
       
       <div className="text-center text-white/80 mt-4">
         <p>
-          Already have an account?{" "}
+          {t('auth.haveAccount')}{" "}
           <Link to="/auth/login" className="text-white hover:underline">
-            Log in
+            {t('auth.login')}
           </Link>
         </p>
       </div>

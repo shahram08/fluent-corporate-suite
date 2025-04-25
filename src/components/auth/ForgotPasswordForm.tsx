@@ -5,20 +5,22 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email) {
       toast({
-        title: "Error",
-        description: "Please enter your email address",
+        title: t('auth.error'),
+        description: t('auth.enterEmailAddress'),
         variant: "destructive",
       });
       return;
@@ -33,13 +35,13 @@ const ForgotPasswordForm = () => {
       setIsSubmitted(true);
       
       toast({
-        title: "Success",
-        description: "Password reset instructions sent to your email",
+        title: t('auth.success'),
+        description: t('auth.resetInstructionsSent'),
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred while processing your request",
+        title: t('auth.error'),
+        description: t('auth.resetRequestError'),
         variant: "destructive",
       });
     } finally {
@@ -55,12 +57,12 @@ const ForgotPasswordForm = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h3 className="text-xl font-medium text-white mb-2">Check your email</h3>
+        <h3 className="text-xl font-medium text-white mb-2">{t('auth.checkEmail')}</h3>
         <p className="text-white/80 mb-6">
-          We've sent password reset instructions to {email}
+          {t('auth.resetInstructionsSentTo')} {email}
         </p>
         <Button asChild className="bg-white text-corporate-500 hover:bg-white/90">
-          <Link to="/auth/login">Return to login</Link>
+          <Link to="/auth/login">{t('auth.returnToLogin')}</Link>
         </Button>
       </div>
     );
@@ -69,13 +71,13 @@ const ForgotPasswordForm = () => {
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-white">Email</Label>
+        <Label htmlFor="email" className="text-white">{t('auth.email')}</Label>
         <Input
           id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder={t('auth.enterEmail')}
           required
           className="glass-input text-white bg-transparent border-white/20 placeholder:text-white/50 focus:border-white"
         />
@@ -86,14 +88,14 @@ const ForgotPasswordForm = () => {
         className="w-full bg-white text-corporate-500 hover:bg-white/90"
         disabled={isLoading}
       >
-        {isLoading ? "Sending instructions..." : "Send reset instructions"}
+        {isLoading ? t('auth.sendingInstructions') : t('auth.sendResetInstructions')}
       </Button>
       
       <div className="text-center text-white/80">
         <p>
-          Remember your password?{" "}
+          {t('auth.rememberPassword')}{" "}
           <Link to="/auth/login" className="text-white hover:underline">
-            Back to login
+            {t('auth.backToLogin')}
           </Link>
         </p>
       </div>
