@@ -25,10 +25,10 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 // Admin pages
 import Dashboard from "./pages/admin/Dashboard";
 
-// Initialize QueryClient outside the component
-const queryClient = new QueryClient();
-
 const App = () => {
+  // Create a client
+  const queryClient = new QueryClient();
+
   return (
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
