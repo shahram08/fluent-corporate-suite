@@ -1,5 +1,5 @@
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { 
@@ -11,13 +11,14 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Menu
+  Menu,
+  Moon,
+  Sun
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "../ThemeProvider";
 import { cn } from "@/lib/utils";
-import { Moon, Sun } from "lucide-react";
 import LanguageSwitcher from "../common/LanguageSwitcher";
 
 interface AdminLayoutProps {
@@ -31,6 +32,36 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const { theme, setTheme } = useTheme();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.dir() === 'rtl';
+
+  // Store sidebar state in localStorage
+  useEffect(() => {
+    const savedSidebarState = localStorage.getItem('adminSidebarCollapsed');
+    if (savedSidebarState) {
+      setSidebarCollapsed(savedSidebarState === 'true');
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('adminSidebarCollapsed', String(sidebarCollapsed));
+  }, [sidebarCollapsed]);
+
+  // Get user from localStorage
+  const [user, setUser] = useState<{name: string; email: string} | null>(null);
+
+  useEffect(() => {
+    const authUser = localStorage.getItem('authUser');
+    if (authUser) {
+      try {
+        const userData = JSON.parse(authUser);
+        setUser({
+          name: userData.name || t('admin.users.name'),
+          email: userData.email || 'admin@example.com'
+        });
+      } catch (e) {
+        console.error('Failed to parse user data');
+      }
+    }
+  }, [t]);
 
   const navigation = [
     {
@@ -71,8 +102,19 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
+  const handleLogout = () => {
+    // In a real app, you would call your logout service
+    localStorage.removeItem('authUser');
+    window.location.href = '/auth/login';
+  };
+
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Desktop Sidebar */}
       <div
         className={cn(
           "hidden md:flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all",
@@ -80,7 +122,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         )}
       >
         <div className={cn(
-          "p-4 flex items-center justify-between",
+          "p-4 flex items-center",
           sidebarCollapsed ? "justify-center" : "justify-between"
         )}>
           {!sidebarCollapsed && (
@@ -91,7 +133,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            onClick={toggleSidebar}
             className="text-gray-500"
           >
             {sidebarCollapsed ? 
@@ -130,15 +172,17 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           "p-4 border-t border-gray-200 dark:border-gray-700",
           sidebarCollapsed ? "flex justify-center" : ""
         )}>
-          {!sidebarCollapsed && (
+          {!sidebarCollapsed && user && (
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mr-2">
-                  <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">A</span>
+                  <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">
+                    {user.name.charAt(0)}
+                  </span>
                 </div>
                 <div className="leading-none">
-                  <p className="font-medium">{t('admin.users.name')}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">admin@example.com</p>
+                  <p className="font-medium">{user.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
                 </div>
               </div>
               <Button
@@ -164,6 +208,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               <Button
                 variant="ghost"
                 size="icon"
+                onClick={handleLogout}
                 className="flex-shrink-0 text-gray-500"
               >
                 <LogOut size={18} />
@@ -173,6 +218,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         </div>
       </div>
 
+      {/* Mobile Overlay */}
       <div
         className={cn(
           "fixed inset-0 bg-gray-600 bg-opacity-75 z-20 transition-opacity md:hidden",
@@ -181,6 +227,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         onClick={() => setMobileMenuOpen(false)}
       />
 
+      {/* Mobile Sidebar */}
       <div
         className={cn(
           "fixed inset-y-0 start-0 flex flex-col z-30 w-full max-w-xs bg-white dark:bg-gray-800 transform transition-transform md:hidden",
@@ -227,29 +274,35 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           </nav>
         </div>
         <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mr-2">
-                <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">A</span>
+          {user && (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mr-2">
+                  <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">
+                    {user.name.charAt(0)}
+                  </span>
+                </div>
+                <div className="leading-none">
+                  <p className="font-medium">{user.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
+                </div>
               </div>
-              <div className="leading-none">
-                <p className="font-medium">{t('admin.users.name')}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">admin@example.com</p>
-              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className={cn("flex-shrink-0", isRTL ? "mr-2" : "ml-2")}
+              >
+                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+              </Button>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className={cn("flex-shrink-0", isRTL ? "mr-2" : "ml-2")}
-            >
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-          </div>
+          )}
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Header */}
         <header className="bg-white dark:bg-gray-800 shadow-sm z-10">
           <div className="h-16 px-4 flex items-center justify-between">
             <Button
@@ -266,14 +319,19 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               <Button variant="ghost" size="sm" asChild className="mr-2">
                 <Link to="/">{t('navigation.viewSite')}</Link>
               </Button>
-              <Button variant="outline" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleLogout}
+              >
                 <LogOut className={cn("h-4 w-4", isRTL ? "ml-2" : "mr-2")} />
-                <Link to="/auth/login">{t('navigation.logout')}</Link>
+                {t('navigation.logout')}
               </Button>
             </div>
           </div>
         </header>
 
+        {/* Main Content */}
         <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-6">
           {children}
         </main>

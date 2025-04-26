@@ -1,12 +1,13 @@
 
 import { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTheme } from "@/components/ThemeProvider";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface StatsCardProps {
   title: string;
-  value: string | number;
-  description?: string;
+  value: string;
   icon?: ReactNode;
   trend?: {
     value: number;
@@ -18,37 +19,46 @@ interface StatsCardProps {
 const StatsCard = ({
   title,
   value,
-  description,
   icon,
   trend,
-  className,
+  className
 }: StatsCardProps) => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
   return (
     <Card className={cn("overflow-hidden", className)}>
       <CardContent className="p-6">
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
-            <h4 className="text-2xl font-bold">{value}</h4>
-            {description && (
-              <p className="text-sm text-muted-foreground mt-1">{description}</p>
-            )}
+            <h3 className="text-2xl font-bold">{value}</h3>
+            
             {trend && (
               <div className="flex items-center mt-2">
                 <span
                   className={cn(
-                    "text-xs font-medium mr-1",
-                    trend.isPositive ? "text-green-500" : "text-red-500"
+                    "text-xs font-medium flex items-center",
+                    trend.isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                   )}
                 >
-                  {trend.isPositive ? "+" : "-"}{Math.abs(trend.value)}%
+                  {trend.isPositive ? (
+                    <ArrowUp className="h-3 w-3 mr-1" />
+                  ) : (
+                    <ArrowDown className="h-3 w-3 mr-1" />
+                  )}
+                  {trend.value}%
                 </span>
-                <span className="text-xs text-muted-foreground">vs last month</span>
+                <span className="text-xs text-muted-foreground ml-1.5">vs. last month</span>
               </div>
             )}
           </div>
+          
           {icon && (
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+            <div className={cn(
+              "p-2 rounded-lg",
+              isDark ? "bg-gray-800" : "bg-gray-100"
+            )}>
               {icon}
             </div>
           )}

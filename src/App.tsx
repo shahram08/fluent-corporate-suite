@@ -28,6 +28,12 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 // Admin pages
 import Dashboard from "./pages/admin/Dashboard";
 
+// Protected route
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+
+// Unauthorized page
+import Unauthorized from "./pages/Unauthorized";
+
 const App = () => {
   // Create a client
   const queryClient = new QueryClient();
@@ -53,9 +59,14 @@ const App = () => {
               <Route path="/auth/login" element={<Login />} />
               <Route path="/auth/register" element={<Register />} />
               <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+              <Route path="/unauthorized" element={<Unauthorized />} />
               
-              {/* Admin routes */}
-              <Route path="/admin" element={<Dashboard />} />
+              {/* Admin routes - Protected */}
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
               
               {/* 404 catch-all */}
               <Route path="*" element={<NotFound />} />

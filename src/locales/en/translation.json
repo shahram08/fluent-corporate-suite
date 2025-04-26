@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "home": "Home",
@@ -9,7 +8,10 @@
     "contact": "Contact",
     "login": "Log In",
     "register": "Register",
-    "company": "Company"
+    "company": "Company",
+    "admin": "Admin Dashboard",
+    "viewSite": "View Website",
+    "logout": "Log Out"
   },
   "auth": {
     "login": "Log in",
@@ -54,5 +56,65 @@
     "allRightsReserved": "All rights reserved.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "overview": "Overview",
+      "welcome": "Welcome to your admin dashboard!",
+      "stats": "Statistics",
+      "recentActivity": "Recent Activity",
+      "quickActions": "Quick Actions"
+    },
+    "users": {
+      "title": "Users",
+      "manage": "Manage Users",
+      "add": "Add User",
+      "edit": "Edit User",
+      "delete": "Delete User",
+      "name": "Admin User",
+      "roles": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "search": "Search users..."
+    },
+    "blogManagement": {
+      "title": "Blog Posts",
+      "manage": "Manage Posts",
+      "add": "Add Post",
+      "edit": "Edit Post",
+      "delete": "Delete Post",
+      "categories": "Categories",
+      "tags": "Tags",
+      "search": "Search posts..."
+    },
+    "activityLogs": {
+      "title": "Activity Logs",
+      "view": "View Logs",
+      "filter": "Filter Logs",
+      "export": "Export Logs"
+    },
+    "settings": {
+      "title": "Settings",
+      "general": "General",
+      "appearance": "Appearance",
+      "security": "Security",
+      "advanced": "Advanced",
+      "theme": {
+        "title": "Theme",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      }
+    },
+    "fileManager": {
+      "title": "File Manager",
+      "upload": "Upload",
+      "delete": "Delete",
+      "rename": "Rename",
+      "preview": "Preview"
+    }
   }
 }

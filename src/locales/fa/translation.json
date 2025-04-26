@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "home": "خانه",
@@ -9,7 +8,10 @@
     "contact": "تماس با ما",
     "login": "ورود",
     "register": "ثبت نام",
-    "company": "شرکت"
+    "company": "شرکت",
+    "admin": "پنل مدیریت",
+    "viewSite": "مشاهده وبسایت",
+    "logout": "خروج"
   },
   "auth": {
     "login": "ورود",
@@ -54,5 +56,65 @@
     "allRightsReserved": "همه حقوق محفوظ است.",
     "privacyPolicy": "سیاست حفظ حریم خصوصی",
     "termsOfService": "شرایط استفاده از خدمات"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "داشبورد",
+      "overview": "نمای کلی",
+      "welcome": "به پنل مدیریت خوش آمدید!",
+      "stats": "آمار",
+      "recentActivity": "فعالیت های اخیر",
+      "quickActions": "عملیات سریع"
+    },
+    "users": {
+      "title": "کاربران",
+      "manage": "مدیریت کاربران",
+      "add": "افزودن کاربر",
+      "edit": "ویرایش کاربر",
+      "delete": "حذف کاربر",
+      "name": "کاربر مدیر",
+      "roles": {
+        "admin": "مدیر",
+        "editor": "ویرایشگر",
+        "viewer": "بازدید کننده"
+      },
+      "search": "جستجوی کاربران..."
+    },
+    "blogManagement": {
+      "title": "مقالات بلاگ",
+      "manage": "مدیریت مقالات",
+      "add": "افزودن مقاله",
+      "edit": "ویرایش مقاله",
+      "delete": "حذف مقاله",
+      "categories": "دسته بندی ها",
+      "tags": "برچسب ها",
+      "search": "جستجوی مقالات..."
+    },
+    "activityLogs": {
+      "title": "گزارش فعالیت ها",
+      "view": "مشاهده گزارش ها",
+      "filter": "فیلتر گزارش ها",
+      "export": "خروجی گزارش ها"
+    },
+    "settings": {
+      "title": "تنظیمات",
+      "general": "عمومی",
+      "appearance": "ظاهر",
+      "security": "امنیت",
+      "advanced": "پیشرفته",
+      "theme": {
+        "title": "تم",
+        "light": "روشن",
+        "dark": "تیره",
+        "system": "سیستم"
+      }
+    },
+    "fileManager": {
+      "title": "مدیریت فایل ها",
+      "upload": "آپلود",
+      "delete": "حذف",
+      "rename": "تغییر نام",
+      "preview": "پیش نمایش"
+    }
   }
 }
