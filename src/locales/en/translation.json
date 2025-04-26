@@ -72,8 +72,11 @@
       "add": "Add User",
       "edit": "Edit User",
       "delete": "Delete User",
-      "name": "Admin User",
+      "name": "Name",
+      "dateCreated": "Date Created",
       "roles": {
+        "title": "Role",
+        "all": "All Roles",
         "admin": "Admin",
         "editor": "Editor",
         "viewer": "Viewer"
@@ -115,6 +118,7 @@
       "delete": "Delete",
       "rename": "Rename",
       "preview": "Preview"
-    }
+    },
+    "actions": "Actions"
   }
 }

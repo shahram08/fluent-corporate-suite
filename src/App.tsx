@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -33,6 +32,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Unauthorized page
 import Unauthorized from "./pages/Unauthorized";
+import UsersPage from "./pages/admin/UsersPage";
 
 const App = () => {
   // Create a client
@@ -65,6 +65,11 @@ const App = () => {
               <Route path="/admin" element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/users" element={
+                <ProtectedRoute>
+                  <UsersPage />
                 </ProtectedRoute>
               } />
               
