@@ -1,7 +1,7 @@
-
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, Search, Filter } from "lucide-react";
+import { Plus, Search } from "lucide-react";
+import { cn } from "@/lib/utils";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

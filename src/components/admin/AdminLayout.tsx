@@ -1,36 +1,21 @@
 
 import { ReactNode, useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { 
-  LayoutDashboard, 
-  Users, 
-  FileText, 
-  Settings, 
-  Activity,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  Menu,
-  Moon,
-  Sun
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useTheme } from "../ThemeProvider";
 import { cn } from "@/lib/utils";
-import LanguageSwitcher from "../common/LanguageSwitcher";
+import { AdminSidebarNav } from "./sidebar/AdminSidebarNav";
+import { AdminSidebarHeader } from "./sidebar/AdminSidebarHeader";
+import { AdminSidebarFooter } from "./sidebar/AdminSidebarFooter";
+import { AdminHeader } from "./header/AdminHeader";
 
 interface AdminLayoutProps {
   children: ReactNode;
 }
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.dir() === 'rtl';
 
   // Store sidebar state in localStorage
@@ -54,60 +39,20 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       try {
         const userData = JSON.parse(authUser);
         setUser({
-          name: userData.name || t('admin.users.name'),
+          name: userData.name || 'Admin User',
           email: userData.email || 'admin@example.com'
         });
       } catch (e) {
         console.error('Failed to parse user data');
       }
     }
-  }, [t]);
-
-  const navigation = [
-    {
-      name: t('admin.dashboard.title'),
-      href: "/admin",
-      icon: LayoutDashboard,
-    },
-    {
-      name: t('admin.users.title'),
-      href: "/admin/users",
-      icon: Users,
-    },
-    {
-      name: t('admin.blogManagement.title'),
-      href: "/admin/posts",
-      icon: FileText,
-    },
-    {
-      name: t('admin.activityLogs.title'),
-      href: "/admin/activity",
-      icon: Activity,
-    },
-    {
-      name: t('admin.settings.title'),
-      href: "/admin/settings",
-      icon: Settings,
-    },
-  ];
-
-  const isActive = (path: string) => {
-    if (path === "/admin" && location.pathname === "/admin") {
-      return true;
-    }
-    return location.pathname.startsWith(path) && path !== "/admin";
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
   const handleLogout = () => {
-    // In a real app, you would call your logout service
     localStorage.removeItem('authUser');
     window.location.href = '/auth/login';
   };
@@ -121,101 +66,16 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           sidebarCollapsed ? "w-20" : "w-64"
         )}
       >
-        <div className={cn(
-          "p-4 flex items-center",
-          sidebarCollapsed ? "justify-center" : "justify-between"
-        )}>
-          {!sidebarCollapsed && (
-            <Link to="/admin" className="text-xl font-bold text-corporate-500 dark:text-corporate-300">
-              {t('navigation.admin')}
-            </Link>
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleSidebar}
-            className="text-gray-500"
-          >
-            {sidebarCollapsed ? 
-              (isRTL ? <ChevronLeft size={18} /> : <ChevronRight size={18} />) : 
-              (isRTL ? <ChevronRight size={18} /> : <ChevronLeft size={18} />)
-            }
-          </Button>
-        </div>
+        <AdminSidebarHeader isCollapsed={sidebarCollapsed} toggleSidebar={toggleSidebar} />
         <Separator />
         <div className="flex-1 overflow-y-auto py-4">
-          <nav className="px-2 space-y-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                  isActive(item.href)
-                    ? "bg-corporate-50 text-corporate-500 dark:bg-corporate-900/50 dark:text-corporate-300"
-                    : "text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700/50"
-                )}
-              >
-                <item.icon className={cn(
-                  "flex-shrink-0 h-5 w-5",
-                  sidebarCollapsed ? "mx-auto" : isRTL ? "ml-3" : "mr-3",
-                  isActive(item.href)
-                    ? "text-corporate-500 dark:text-corporate-300"
-                    : "text-gray-500 dark:text-gray-400"
-                )} />
-                {!sidebarCollapsed && <span>{item.name}</span>}
-              </Link>
-            ))}
-          </nav>
+          <AdminSidebarNav isCollapsed={sidebarCollapsed} />
         </div>
-        <div className={cn(
-          "p-4 border-t border-gray-200 dark:border-gray-700",
-          sidebarCollapsed ? "flex justify-center" : ""
-        )}>
-          {!sidebarCollapsed && user && (
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center">
-                <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mr-2">
-                  <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">
-                    {user.name.charAt(0)}
-                  </span>
-                </div>
-                <div className="leading-none">
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                className="ml-auto flex-shrink-0"
-              >
-                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-              </Button>
-            </div>
-          )}
-          {sidebarCollapsed && (
-            <div className="flex flex-col space-y-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                className="flex-shrink-0"
-              >
-                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleLogout}
-                className="flex-shrink-0 text-gray-500"
-              >
-                <LogOut size={18} />
-              </Button>
-            </div>
-          )}
-        </div>
+        <AdminSidebarFooter 
+          isCollapsed={sidebarCollapsed}
+          user={user}
+          handleLogout={handleLogout}
+        />
       </div>
 
       {/* Mobile Overlay */}
@@ -234,104 +94,21 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           mobileMenuOpen ? "translate-x-0" : isRTL ? "translate-x-full" : "-translate-x-full"
         )}
       >
-        <div className="p-4 flex items-center justify-between">
-          <Link to="/admin" className="text-xl font-bold text-corporate-500 dark:text-corporate-300">
-            {t('navigation.admin')}
-          </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            {isRTL ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-          </Button>
-        </div>
+        <AdminSidebarHeader isCollapsed={false} toggleSidebar={() => setMobileMenuOpen(false)} />
         <Separator />
         <div className="flex-1 overflow-y-auto py-4">
-          <nav className="px-4 space-y-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "flex items-center px-3 py-2 rounded-md text-sm font-medium",
-                  isActive(item.href)
-                    ? "bg-corporate-50 text-corporate-500 dark:bg-corporate-900/50 dark:text-corporate-300"
-                    : "text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700/50"
-                )}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <item.icon className={cn(
-                  "flex-shrink-0 h-5 w-5",
-                  isRTL ? "ml-3" : "mr-3",
-                  isActive(item.href)
-                    ? "text-corporate-500 dark:text-corporate-300"
-                    : "text-gray-500 dark:text-gray-400"
-                )} />
-                <span>{item.name}</span>
-              </Link>
-            ))}
-          </nav>
+          <AdminSidebarNav isCollapsed={false} />
         </div>
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-          {user && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mr-2">
-                  <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">
-                    {user.name.charAt(0)}
-                  </span>
-                </div>
-                <div className="leading-none">
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                className={cn("flex-shrink-0", isRTL ? "mr-2" : "ml-2")}
-              >
-                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-              </Button>
-            </div>
-          )}
-        </div>
+        <AdminSidebarFooter 
+          isCollapsed={false}
+          user={user}
+          handleLogout={handleLogout}
+        />
       </div>
 
       {/* Main Content */}
       <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Header */}
-        <header className="bg-white dark:bg-gray-800 shadow-sm z-10">
-          <div className="h-16 px-4 flex items-center justify-between">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
-            <div className="flex items-center ml-auto">
-              <LanguageSwitcher variant="ghost" size="sm" className="mr-2" />
-              
-              <Button variant="ghost" size="sm" asChild className="mr-2">
-                <Link to="/">{t('navigation.viewSite')}</Link>
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={handleLogout}
-              >
-                <LogOut className={cn("h-4 w-4", isRTL ? "ml-2" : "mr-2")} />
-                {t('navigation.logout')}
-              </Button>
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
+        <AdminHeader setMobileMenuOpen={setMobileMenuOpen} handleLogout={handleLogout} />
         <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-6">
           {children}
         </main>
